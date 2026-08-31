@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>C# Interview Map — Senior · Lead · Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0d0b16;
+    --ink-2:#120f1f;
+    --surface:#17132a;
+    --surface-2:#1d1838;
+    --line:#2a2348;
+    --line-soft:#221d3d;
+    --violet:#8b6dff;
+    --violet-bright:#a98bff;
+    --violet-deep:#6c4cf0;
+    --cyan:#3fd6e0;
+    --amber:#f3b24a;
+    --rose:#ff6b8b;
+    --green:#54d6a0;
+    --text:#ece9f8;
+    --text-mid:#b6afd4;
+    --muted:#857da6;
+    --faint:#5e577d;
+    --maxw:1080px;
+    --radius:16px;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --disp:"Space Grotesk",system-ui,sans-serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:.001ms !important;transition-duration:.001ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(1100px 600px at 78% -8%, rgba(108,76,240,.20), transparent 60%),
+      radial-gradient(800px 500px at -5% 8%, rgba(63,214,224,.07), transparent 55%),
+      var(--ink);
+    color:var(--text);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px;}
+
+  /* ===== HERO / SIGNATURE CONSTELLATION ===== */
+  header.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft);}
+  .hero-inner{padding:52px 0 30px;position:relative;}
+  .eyebrow{
+    font-family:var(--mono);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--violet-bright);display:flex;align-items:center;gap:12px;margin:0 0 18px;
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:linear-gradient(90deg,var(--violet),transparent);}
+  h1.title{
+    font-family:var(--disp);font-weight:700;letter-spacing:-.02em;line-height:1.02;
+    margin:0;font-size:clamp(2.3rem,6vw,4.1rem);
+  }
+  h1.title .grad{
+    background:linear-gradient(105deg,var(--violet-bright) 0%,var(--cyan) 92%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .lede{
+    color:var(--text-mid);max-width:62ch;margin:18px 0 0;font-size:1.06rem;
+  }
+  .roles{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 6px;}
+  .role{
+    font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;
+    padding:7px 13px;border-radius:999px;border:1px solid var(--line);
+    background:var(--surface);color:var(--text-mid);display:flex;align-items:center;gap:8px;
+  }
+  .role b{color:var(--text);font-weight:600;}
+  .role .dot{width:7px;height:7px;border-radius:50%;}
+  .role.s .dot{background:var(--cyan);}
+  .role.l .dot{background:var(--violet);}
+  .role.x .dot{background:var(--amber);}
+  .meta-line{
+    font-family:var(--mono);color:var(--faint);font-size:.78rem;margin-top:18px;letter-spacing:.02em;
+  }
+
+  /* constellation */
+  .constellation{position:relative;margin:38px 0 6px;min-height:120px;}
+  #links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible;}
+  #links path{fill:none;stroke:url(#wire);stroke-width:1.3;opacity:.5;}
+  .core{
+    position:relative;z-index:2;width:max-content;margin:0 auto 26px;
+    display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;
+    padding:18px 26px;border-radius:18px;
+    background:linear-gradient(160deg,rgba(139,109,255,.16),rgba(63,214,224,.05));
+    border:1px solid rgba(139,109,255,.4);
+    box-shadow:0 0 0 6px rgba(139,109,255,.05),0 22px 50px -20px rgba(108,76,240,.5);
+  }
+  .core .k{font-family:var(--mono);font-size:.66rem;letter-spacing:.28em;color:var(--violet-bright);text-transform:uppercase;}
+  .core .t{font-family:var(--disp);font-weight:600;font-size:1.25rem;letter-spacing:-.01em;}
+  .chips{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:9px;justify-content:center;}
+  .chip{
+    appearance:none;cursor:pointer;font-family:var(--mono);font-size:.76rem;
+    color:var(--text-mid);background:var(--surface);border:1px solid var(--line);
+    padding:8px 13px;border-radius:11px;display:flex;align-items:center;gap:8px;
+    transition:transform .18s ease,border-color .18s ease,color .18s ease,background .18s ease;
+  }
+  .chip:hover,.chip:focus-visible{
+    color:var(--text);border-color:var(--violet);background:var(--surface-2);
+    transform:translateY(-2px);outline:none;
+  }
+  .chip svg{width:15px;height:15px;flex:none;color:var(--violet-bright);}
+
+  /* ===== STICKY TOOLBAR ===== */
+  .toolbar{
+    position:sticky;top:0;z-index:30;backdrop-filter:blur(10px);
+    background:rgba(13,11,22,.82);border-bottom:1px solid var(--line-soft);
+  }
+  .toolbar-inner{display:flex;align-items:center;gap:14px;padding:13px 0;flex-wrap:wrap;}
+  .search{position:relative;flex:1 1 260px;min-width:200px;}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--faint);}
+  .search input{
+    width:100%;font-family:var(--body);font-size:.92rem;color:var(--text);
+    background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:11px 14px 11px 38px;outline:none;transition:border-color .15s ease;
+  }
+  .search input:focus{border-color:var(--violet);}
+  .search input::placeholder{color:var(--faint);}
+  .tbtn{
+    appearance:none;cursor:pointer;font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;
+    color:var(--text-mid);background:var(--surface);border:1px solid var(--line);
+    padding:10px 14px;border-radius:11px;transition:color .15s,border-color .15s,background .15s;white-space:nowrap;
+  }
+  .tbtn:hover,.tbtn:focus-visible{color:var(--text);border-color:var(--violet);outline:none;}
+  .progress{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.74rem;color:var(--muted);white-space:nowrap;}
+  .bar{width:96px;height:6px;border-radius:999px;background:var(--line);overflow:hidden;}
+  .bar > i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .35s ease;}
+
+  /* ===== SECTIONS ===== */
+  main{padding:34px 0 10px;}
+  .intro{
+    background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);
+    padding:22px 24px;margin-bottom:30px;
+  }
+  .intro h2{font-family:var(--disp);font-size:1.05rem;margin:0 0 8px;letter-spacing:-.01em;}
+  .intro p{margin:0 0 10px;color:var(--text-mid);font-size:.95rem;}
+  .intro p:last-child{margin-bottom:0;}
+  .intro b{color:var(--text);font-weight:600;}
+  .intro .key{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line-soft);
+    font-family:var(--mono);font-size:.72rem;color:var(--muted);
+  }
+  .intro .key span{display:flex;align-items:center;gap:7px;}
+  .swatch{width:10px;height:10px;border-radius:3px;}
+
+  .pillar{
+    border:1px solid var(--line-soft);border-radius:var(--radius);
+    background:linear-gradient(180deg,var(--surface),var(--ink-2));
+    margin-bottom:14px;overflow:hidden;scroll-margin-top:84px;
+    transition:border-color .2s ease;
+  }
+  .pillar.is-open{border-color:var(--line);}
+  .pillar.is-open .p-head{border-bottom:1px solid var(--line-soft);}
+
+  .p-head{
+    width:100%;appearance:none;cursor:pointer;text-align:left;
+    display:flex;align-items:center;gap:16px;padding:18px 20px;
+    background:transparent;border:0;color:inherit;font-family:inherit;
+  }
+  .p-head:focus-visible{outline:2px solid var(--violet);outline-offset:-2px;}
+  .emblem{
+    flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    background:radial-gradient(circle at 30% 25%,rgba(139,109,255,.25),rgba(139,109,255,.06));
+    border:1px solid var(--line);color:var(--violet-bright);
+  }
+  .emblem svg{width:21px;height:21px;}
+  .p-titles{flex:1;min-width:0;}
+  .p-titles h3{font-family:var(--disp);font-weight:600;font-size:1.12rem;margin:0;letter-spacing:-.01em;}
+  .p-titles p{margin:3px 0 0;color:var(--muted);font-size:.85rem;}
+  .p-tag{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--faint);border:1px solid var(--line);border-radius:7px;padding:4px 8px;flex:none;
+  }
+  .caret{flex:none;width:20px;height:20px;color:var(--muted);transition:transform .25s ease;}
+  .pillar.is-open .caret{transform:rotate(90deg);}
+
+  .p-body{display:none;padding:6px 20px 22px;}
+  .pillar.is-open .p-body{display:block;}
+
+  .block{margin-top:18px;}
+  .block:first-child{margin-top:8px;}
+  .b-label{
+    display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+    font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;margin:0 0 10px;font-weight:500;
+  }
+  .b-label .pip{width:8px;height:8px;border-radius:2px;}
+  .l-map .pip{background:var(--violet);} .l-map{color:var(--violet-bright);}
+  .l-deep .pip{background:var(--cyan);} .l-deep{color:var(--cyan);}
+  .l-ask .pip{background:var(--green);} .l-ask{color:var(--green);}
+  .l-watch .pip{background:var(--amber);} .l-watch{color:var(--amber);}
+  .l-staff .pip{background:var(--rose);} .l-staff{color:var(--rose);}
+
+  .p-body ul{margin:0;padding:0;list-style:none;}
+  .p-body li{
+    position:relative;padding:5px 0 5px 20px;color:var(--text-mid);font-size:.93rem;
+  }
+  .p-body li::before{
+    content:"";position:absolute;left:2px;top:13px;width:6px;height:6px;border-radius:50%;
+    background:var(--line);border:1px solid var(--faint);
+  }
+  .p-body li b,.p-body li strong{color:var(--text);font-weight:600;}
+  .p-body li code{
+    font-family:var(--mono);font-size:.82em;background:var(--surface-2);
+    border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--violet-bright);
+  }
+  .ask li::before{background:rgba(84,214,160,.25);border-color:var(--green);}
+  .watch li::before{background:rgba(243,178,74,.22);border-color:var(--amber);}
+  .staff li::before{background:rgba(255,107,139,.22);border-color:var(--rose);}
+
+  .q{color:var(--text)!important;}
+  .q::after{content:" ";}
+
+  pre{
+    margin:12px 0 4px;background:#0a0813;border:1px solid var(--line);border-radius:11px;
+    padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:.81rem;line-height:1.7;color:#d6d1ee;
+  }
+  pre .c{color:var(--faint);font-style:italic;}
+  pre .k{color:var(--violet-bright);}
+  pre .t{color:var(--cyan);}
+  pre .s{color:var(--green);}
+  pre .n{color:var(--amber);}
+
+  .callout{
+    margin-top:12px;border-left:3px solid var(--amber);background:rgba(243,178,74,.06);
+    border-radius:0 10px 10px 0;padding:11px 15px;font-size:.9rem;color:var(--text-mid);
+  }
+  .callout b{color:var(--amber);}
+
+  .p-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    margin-top:22px;padding-top:15px;border-top:1px solid var(--line-soft);
+  }
+  .check{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;font-size:.84rem;color:var(--muted);font-family:var(--mono);letter-spacing:.03em;}
+  .check input{accent-color:var(--violet);width:16px;height:16px;cursor:pointer;}
+  .topjump{font-family:var(--mono);font-size:.74rem;color:var(--faint);text-decoration:none;}
+  .topjump:hover{color:var(--violet-bright);}
+
+  .noresults{display:none;text-align:center;color:var(--muted);font-family:var(--mono);font-size:.86rem;padding:40px 0;}
+  .noresults.show{display:block;}
+
+  /* cross-cutting */
+  .crosscut{margin-top:40px;}
+  .cc-head{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+  .cc-head .k{font-family:var(--mono);font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;color:var(--rose);}
+  .cc-head h2{font-family:var(--disp);font-weight:700;font-size:1.7rem;margin:0;letter-spacing:-.02em;}
+  .cc-head h2 .grad{background:linear-gradient(100deg,var(--rose),var(--amber));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .cc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .cc-card{background:var(--ink-2);border:1px solid var(--line-soft);border-radius:14px;padding:18px 20px;}
+  .cc-card h4{font-family:var(--disp);font-size:1rem;margin:0 0 10px;display:flex;align-items:center;gap:9px;letter-spacing:-.01em;}
+  .cc-card h4 svg{width:17px;height:17px;color:var(--rose);}
+  .cc-card ul{margin:0;padding:0;list-style:none;}
+  .cc-card li{position:relative;padding:4px 0 4px 17px;color:var(--text-mid);font-size:.88rem;}
+  .cc-card li::before{content:"";position:absolute;left:0;top:12px;width:5px;height:5px;border-radius:50%;background:var(--rose);opacity:.55;}
+  .cc-card li b{color:var(--text);font-weight:600;}
+
+  /* cadence */
+  .cadence{margin-top:34px;background:var(--ink-2);border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 24px;}
+  .cadence h3{font-family:var(--disp);font-size:1.05rem;margin:0 0 4px;}
+  .cadence > p{color:var(--muted);font-size:.88rem;margin:0 0 16px;}
+  .rail{display:grid;gap:10px;}
+  .leg{display:grid;grid-template-columns:74px 1fr;gap:14px;align-items:start;}
+  .leg .day{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--violet-bright);border:1px solid var(--line);border-radius:8px;padding:7px 8px;text-align:center;}
+  .leg .what{color:var(--text-mid);font-size:.9rem;padding-top:5px;}
+  .leg .what b{color:var(--text);font-weight:600;}
+
+  footer{padding:40px 0 60px;text-align:center;color:var(--faint);font-family:var(--mono);font-size:.76rem;line-height:1.8;}
+  footer span{color:var(--muted);}
+
+  @media (max-width:640px){
+    .hero-inner{padding:38px 0 22px;}
+    .p-tag{display:none;}
+    .p-head{padding:15px 15px;gap:12px;}
+    .p-body{padding:6px 15px 18px;}
+    .leg{grid-template-columns:60px 1fr;}
+    .toolbar-inner{gap:9px;}
+    .progress{order:3;}
+  }
+
+  @media print{
+    .toolbar,.constellation,#links,footer .ph{display:none;}
+    .pillar .p-body{display:block!important;}
+    body{background:#fff;color:#111;}
+    .pillar{break-inside:avoid;border-color:#ccc;}
+    pre{background:#f4f4f7;color:#111;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <p class="eyebrow">Interview Map · .NET / C#</p>
+    <h1 class="title">C# for <span class="grad">Senior, Lead<br>&amp; Staff</span> Engineers</h1>
+    <p class="lede">Thirteen pillars, mapped from surface concepts down to the internals, trade-offs, and architectural judgment that separate a strong senior from a staff hire. Tap a node to unfold it.</p>
+
+    <div class="roles">
+      <span class="role s"><span class="dot"></span><b>Senior</b> — depth &amp; correctness</span>
+      <span class="role l"><span class="dot"></span><b>Lead</b> — design &amp; trade-offs</span>
+      <span class="role x"><span class="dot"></span><b>Staff</b> — systems &amp; influence</span>
+    </div>
+    <p class="meta-line">13 pillars · ~70 probe questions · internals, gotchas &amp; the staff lens on each</p>
+
+    <div class="constellation" id="constellation">
+      <svg id="links" aria-hidden="true">
+        <defs>
+          <linearGradient id="wire" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#8b6dff"/>
+            <stop offset="1" stop-color="#3fd6e0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="core" id="core">
+        <span class="k">Root node</span>
+        <span class="t">Production-grade C#</span>
+      </div>
+      <div class="chips" id="chips"><!-- chips injected by JS, with no-JS fallback below --></div>
+      <noscript>
+        <p style="color:var(--muted);font-family:var(--mono);font-size:.8rem;text-align:center;">
+          Enable JavaScript for the interactive map. All content is below.
+        </p>
+      </noscript>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="wrap toolbar-inner">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="search" id="filter" placeholder="Filter topics — e.g. ValueTask, captive dependency, AsSplitQuery…" aria-label="Filter topics" autocomplete="off">
+    </label>
+    <button class="tbtn" id="expandAll">Expand all</button>
+    <button class="tbtn" id="collapseAll">Collapse all</button>
+    <div class="progress" title="Topics you've marked mastered (saved on this device when supported)">
+      <span id="progressText">0 / 13</span>
+      <span class="bar"><i id="progressFill"></i></span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="intro">
+    <h2>How to use this map</h2>
+    <p>At senior level, interviewers test whether you <b>understand the mechanism</b>, not whether you can recite the API. At lead and staff level, the same topic becomes a lens for <b>trade-offs, blast radius, and the call you'd make under constraints</b>. Each pillar is structured the same way so you can drill consistently.</p>
+    <p>Don't memorize answers — rehearse <b>reasoning out loud</b>. When you hit a question, say the naïve answer, then the failure mode, then what you'd actually ship and why. That arc is what gets scored.</p>
+    <div class="key">
+      <span><span class="swatch" style="background:var(--violet)"></span>Map — the sub-branches</span>
+      <span><span class="swatch" style="background:var(--cyan)"></span>Go deep — internals</span>
+      <span><span class="swatch" style="background:var(--green)"></span>They'll ask — probe questions</span>
+      <span><span class="swatch" style="background:var(--amber)"></span>Watch for — gotchas</span>
+      <span><span class="swatch" style="background:var(--rose)"></span>Staff lens — the bigger call</span>
+    </div>
+  </section>
+
+  <div id="pillars">
+  <!-- ============ PILLARS INJECTED / WRITTEN BELOW ============ -->
+  </div>
+
+  <p class="noresults" id="noresults">No pillar matches that filter. Try a broader term.</p>
+
+  <!-- ============ CROSS-CUTTING: STAFF & LEAD LENS ============ -->
+  <section class="crosscut">
+    <div class="cc-head">
+      <span class="k">Beyond the language</span>
+    </div>
+    <div class="cc-head" style="margin-top:-8px;">
+      <h2>The <span class="grad">Staff &amp; Lead</span> lens</h2>
+    </div>
+    <div class="cc-grid">
+      <div class="cc-card">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>System design in .NET</h4>
+        <ul>
+          <li>Scaling stateless APIs: <b>horizontal scale + distributed cache</b>, sticky-session pitfalls, why in-memory state breaks at N&gt;1.</li>
+          <li>Resilience: timeouts, retries with jitter, <b>circuit breakers</b>, bulkheads (Polly), idempotency for safe retries.</li>
+          <li>Async messaging: queues vs service bus, outbox pattern, exactly-once is a myth — design for <b>at-least-once + idempotent consumers</b>.</li>
+          <li>Data: read/write split, CQRS when reads and writes diverge, eventual consistency you can defend to a PM.</li>
+          <li>Observability: structured logging, <b>OpenTelemetry</b> traces/metrics, correlation IDs across service hops.</li>
+        </ul>
+      </div>
+      <div class="cc-card">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18"/><path d="M3 7l9-4 9 4"/><path d="M3 7v6c0 3 4 5 9 5s9-2 9-5V7"/></svg>Judgment &amp; trade-offs</h4>
+        <ul>
+          <li>Frame every answer as <b>"it depends, and here's on what"</b> — latency vs throughput, consistency vs availability, build vs buy.</li>
+          <li>Quantify: "this saves 40ms p99 but adds a Redis dependency" beats "it's faster."</li>
+          <li>Know when <b>not</b> to optimize — premature abstraction and over-engineering are the staff-level red flags.</li>
+          <li>Technical debt as a <b>ledger</b>: name it, cost it, schedule it. Don't moralize about it.</li>
+          <li>Reversible vs one-way-door decisions — move fast on the former, deliberate on the latter.</li>
+        </ul>
+      </div>
+      <div class="cc-card">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M3 21v-1a6 6 0 0 1 6-6"/><path d="M16 11l2 2 4-4"/></svg>Leadership &amp; influence</h4>
+        <ul>
+          <li>Code review as <b>mentorship</b>: comment on the "why," distinguish blocking from nit, raise the team's bar without gatekeeping.</li>
+          <li>Driving consensus on architecture: write the <b>ADR / design doc</b>, surface options, let the team own the decision.</li>
+          <li>Mentoring: unblock without taking over; grow others' judgment, not dependence.</li>
+          <li>Influence without authority — the defining staff skill. Persuade with evidence and prototypes, not title.</li>
+          <li>Managing up: translate engineering risk into <b>business risk</b> leadership can act on.</li>
+        </ul>
+      </div>
+      <div class="cc-card">
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="m4.9 4.9 2.9 2.9"/><path d="M2 12h4"/><circle cx="12" cy="14" r="6"/></svg>Behavioral (STAR, leveled)</h4>
+        <ul>
+          <li>Pick stories with <b>real ambiguity and scope</b> — cross-team, multi-quarter, measurable outcome.</li>
+          <li><b>S</b>ituation · <b>T</b>ask · <b>A</b>ction · <b>R</b>esult — but spend 60% on <i>your</i> action and the reasoning behind it.</li>
+          <li>Have a clean "a project failed" story: what you learned, what changed in how you work.</li>
+          <li>Conflict story: technical disagreement resolved with data and a path to "disagree &amp; commit."</li>
+          <li>Quantify impact in the org's terms — revenue, latency, incidents avoided, engineers unblocked.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cadence">
+      <h3>A two-week study cadence</h3>
+      <p>Assuming you already write C# daily. Front-load the topics most likely to expose shallow knowledge under pressure.</p>
+      <div class="rail">
+        <div class="leg"><span class="day">Days 1–2</span><span class="what"><b>Async &amp; threading</b> + <b>memory/GC</b> — the two pillars where senior candidates most often have confident-but-wrong models. Rebuild from first principles.</span></div>
+        <div class="leg"><span class="day">Days 3–4</span><span class="what"><b>Collections/Generics</b> + <b>LINQ</b> — drill Big-O and <code>IEnumerable</code> vs <code>IQueryable</code> until deferred execution is second nature.</span></div>
+        <div class="leg"><span class="day">Days 5–6</span><span class="what"><b>EF Core</b> + <b>Performance/Caching</b> — N+1, tracking, cache invalidation, and how to profile rather than guess.</span></div>
+        <div class="leg"><span class="day">Days 7–8</span><span class="what"><b>DI</b> + <b>Middleware</b> + <b>Design patterns</b> — lifetimes, pipeline order, and patterns as trade-offs, not trivia.</span></div>
+        <div class="leg"><span class="day">Days 9–10</span><span class="what"><b>REST</b> + <b>Auth</b> + <b>Exceptions</b> + <b>Delegates/Events</b> — API design judgment, token flows, and the failure-handling story.</span></div>
+        <div class="leg"><span class="day">Days 11–12</span><span class="what"><b>System design reps</b> — design a rate limiter, a URL shortener, a notification fan-out. Whiteboard out loud, end-to-end.</span></div>
+        <div class="leg"><span class="day">Days 13–14</span><span class="what"><b>Behavioral + mock loops</b> — record yourself, tighten STAR stories, and rehearse the "it depends, here's on what" reflex.</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="ph">Built as a study companion — reasoning &gt; recall.</div>
+  <span>Mark pillars mastered as you go · use the filter to drill a single concept · print for an offline cheat-sheet</span>
+</footer>
+
+<script>
+/* =========================================================
+   PILLAR CONTENT  (data-driven; rendered into #pillars)
+   Each: id, tag, title, blurb, icon(svg), and blocks.
+   Block kinds: map | deep | ask | watch | staff   (+ optional code/callout via html)
+   ========================================================= */
+
+const ICONS = {
+  collections:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/>',
+  linq:'<path d="M3 4h18"/><path d="M6 4 11 12v6l2 1v-7L18 4"/>',
+  async:'<path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M3 21v-5h5"/>',
+  exception:'<path d="M12 3 4 6v5c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6l-8-3z"/><path d="M12 8v4"/><path d="M12 16h.01"/>',
+  delegate:'<path d="M9 12a4 4 0 0 1 4-4h3a4 4 0 0 1 0 8h-1"/><path d="M15 12a4 4 0 0 1-4 4H8a4 4 0 0 1 0-8h1"/>',
+  memory:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>',
+  di:'<path d="M14 7h5a2 2 0 0 1 2 2v3M3 12V9a2 2 0 0 1 2-2h2"/><path d="M7 5v4M7 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/><path d="M14 5v4M14 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>',
+  patterns:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M17.5 14v7M14 17.5h7"/>',
+  ef:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/>',
+  rest:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/>',
+  middleware:'<rect x="3" y="4" width="18" height="4" rx="1"/><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="3" y="16" width="18" height="4" rx="1"/><path d="M7 8v2M12 8v2M17 14v2"/>',
+  auth:'<circle cx="8" cy="9" r="4"/><path d="M10.8 11.8 20 21l-2 2-2-2 2-2-2-2 2-2"/>',
+  perf:'<path d="M12 21a9 9 0 1 1 9-9"/><path d="M12 12 16 8"/><path d="M12 12h.01"/>'
+};
+
+const PILLARS = [
+  {
+    id:'collections', icon:'collections', tag:'Core',
+    title:'Collections & Generics',
+    blurb:'Pick the right structure, and know why it costs what it costs.',
+    map:[
+      '<b>Sequences:</b> <code>List&lt;T&gt;</code>, <code>T[]</code>, <code>LinkedList&lt;T&gt;</code>, <code>Queue/Stack&lt;T&gt;</code>',
+      '<b>Lookups:</b> <code>Dictionary&lt;K,V&gt;</code>, <code>HashSet&lt;T&gt;</code>, <code>SortedDictionary</code>, <code>SortedList</code>',
+      '<b>Abstractions:</b> <code>IEnumerable</code> → <code>ICollection</code> → <code>IList</code> / <code>IReadOnlyList</code>',
+      '<b>Generics machinery:</b> constraints, variance (<code>in</code>/<code>out</code>), open vs closed types',
+      '<b>Modern:</b> <code>Span&lt;T&gt;</code> / <code>Memory&lt;T&gt;</code>, <code>ImmutableArray</code>, <code>FrozenDictionary</code>, concurrent collections'
+    ],
+    deep:[
+      '<code>List&lt;T&gt;</code> is a backing array that <b>doubles capacity</b> on overflow (0→4→8…). Add is amortized O(1); insert/remove mid-list is O(n) from the shift. Pre-size with the capacity ctor when count is known.',
+      '<code>Dictionary&lt;K,V&gt;</code> = a <code>buckets[]</code> of indices + an <code>entries[]</code> array; collisions chain via an index <code>next</code> field, and it resizes to a <b>prime</b> length. Average O(1), worst O(n) with adversarial hashes. A bad <code>GetHashCode</code> silently degrades it to a linked list.',
+      'Value types in generics are <b>monomorphized</b> (one specialized JIT per <code>T</code>) — no boxing. Reference types share one instantiation. This is why generic collections beat the old <code>ArrayList</code>.',
+      'Variance is reference-only and shallow: <code>IEnumerable&lt;out T&gt;</code> lets <code>IEnumerable&lt;string&gt;</code> flow to <code>IEnumerable&lt;object&gt;</code>; <code>Action&lt;in T&gt;</code> is contravariant. Arrays are unsafely covariant (a runtime <code>ArrayTypeMismatchException</code> waiting to happen).',
+      '<code>Span&lt;T&gt;</code> is a <b>ref struct</b> — stack-only. It can slice arrays, <code>stackalloc</code>, or unmanaged memory with zero allocation, but can\'t be a field, boxed, or used across an <code>await</code>.'
+    ],
+    code:`<span class="k">Dictionary</span>&lt;<span class="t">string</span>,<span class="t">int</span>&gt; d = <span class="k">new</span>(capacity: <span class="n">1000</span>); <span class="c">// avoid rehash churn</span>
+<span class="k">ref var</span> slot = <span class="k">ref</span> CollectionsMarshal.GetValueRefOrAddDefault(d, key, <span class="k">out _</span>);
+slot++; <span class="c">// single lookup instead of TryGetValue + indexer</span>`,
+    ask:[
+      '<span class="q">When would you reach for <code>SortedDictionary</code> over <code>Dictionary</code> + sort?</span> (ordered iteration + frequent inserts vs one-shot sort)',
+      '<span class="q">How does <code>HashSet&lt;T&gt;</code> decide equality, and what breaks if you mutate a key after insertion?</span>',
+      '<span class="q">What problem do <code>Span&lt;T&gt;</code> and <code>ArrayPool&lt;T&gt;</code> solve, and where can\'t you use a <code>Span</code>?</span>',
+      '<span class="q">Explain covariance with a concrete signature. Why are arrays covariant but unsafe?</span>',
+      '<span class="q">Walk me through what happens in memory when a <code>List&lt;T&gt;</code> exceeds its capacity.</span>'
+    ],
+    watch:[
+      'Claiming <code>List&lt;T&gt;.Contains</code> is fast — it\'s <b>O(n)</b>. If you\'re doing membership checks, you wanted a <code>HashSet</code>.',
+      'Overriding <code>Equals</code> but not <code>GetHashCode</code> (or vice-versa) — corrupts every hash-based collection.',
+      'Mutable structs in a <code>List&lt;T&gt;</code>: <code>list[i].Field = x</code> mutates a <b>copy</b> and won\'t compile / won\'t stick. Classic trap.',
+      'Reaching for <code>ConcurrentDictionary</code> and assuming compound operations are atomic — <code>GetOrAdd</code>\'s factory can run more than once.'
+    ],
+    staff:[
+      'API surface choices leak: exposing <code>List&lt;T&gt;</code> on a public type invites mutation; return <code>IReadOnlyList</code> / <code>IEnumerable</code> to control the contract.',
+      'For hot read-mostly paths consider <code>FrozenDictionary</code> / immutable collections — pay build cost once for faster, allocation-free reads and thread safety by construction.',
+      'Be the person who measures allocation pressure (collections are a top GC source) rather than the person who guesses.'
+    ]
+  },
+
+  {
+    id:'linq', icon:'linq', tag:'Core',
+    title:'LINQ',
+    blurb:'Deferred execution and the IEnumerable / IQueryable split are the whole game.',
+    map:[
+      '<b>Execution model:</b> deferred vs immediate, streaming vs buffering',
+      '<b>Two worlds:</b> <code>IEnumerable</code> (delegates, in-memory) vs <code>IQueryable</code> (expression trees, translated)',
+      '<b>Operators:</b> projection, filtering, <code>GroupBy</code>, <code>Join</code>, set ops, aggregation',
+      '<b>Syntax:</b> query vs method; custom operators via extension methods',
+      '<b>Parallel:</b> PLINQ (<code>AsParallel</code>), and when it actually helps'
+    ],
+    deep:[
+      '<b>Deferred execution:</b> <code>Where</code>/<code>Select</code> build an iterator and run nothing until enumerated (<code>foreach</code>, <code>ToList</code>, <code>Count</code>, <code>First</code>). The query captures variables by reference — change them before enumeration and results change.',
+      '<b>Streaming vs buffering:</b> <code>Where</code>/<code>Select</code>/<code>Take</code> stream one element at a time; <code>OrderBy</code>, <code>GroupBy</code>, <code>Reverse</code>, <code>ToList</code> must <b>buffer the whole sequence</b> first. That distinction drives memory behavior on large sets.',
+      '<code>IQueryable</code> builds an <b>expression tree</b> the provider (EF Core) translates to SQL. <code>IEnumerable</code> compiles lambdas to delegates that run locally. The moment you cast <code>IQueryable</code>→<code>IEnumerable</code> (or call a method EF can\'t translate), the rest of the pipeline runs <b>in memory</b> after pulling rows.',
+      'Most operators are O(n) single-pass. <code>GroupBy</code>/<code>ToDictionary</code> hash; <code>OrderBy</code> is O(n log n) and stable. <code>Join</code> builds a lookup on the inner sequence.'
+    ],
+    code:`<span class="c">// Deferred: nothing runs here</span>
+<span class="k">var</span> q = items.<span class="t">Where</span>(x =&gt; x.Active);
+threshold = <span class="n">10</span>;            <span class="c">// captured by reference</span>
+<span class="k">var</span> list = q.<span class="t">ToList</span>();    <span class="c">// executes NOW, sees threshold = 10</span>
+
+<span class="c">// IQueryable stays in SQL; ToList() materializes once</span>
+<span class="k">var</span> users = db.Users.<span class="t">Where</span>(u =&gt; u.Age &gt; <span class="n">18</span>)
+                   .<span class="t">OrderBy</span>(u =&gt; u.Name)
+                   .<span class="t">ToList</span>();`,
+    ask:[
+      '<span class="q">Deferred vs immediate execution — give me a bug each one causes.</span>',
+      '<span class="q"><code>IEnumerable</code> vs <code>IQueryable</code>: what physically differs, and when does a query silently fall back to client-side?</span>',
+      '<span class="q">Why is enumerating the same LINQ query twice sometimes a performance bug?</span> (re-execution / re-query)',
+      '<span class="q">Which operators force buffering, and why does that matter for a million-row stream?</span>',
+      '<span class="q">How would you write a custom <code>Chunk</code>/<code>Batch</code> operator with <code>yield return</code>?</span>'
+    ],
+    watch:[
+      '<b>Multiple enumeration</b> of an <code>IEnumerable</code> parameter — re-runs the whole pipeline (or re-hits the DB). Materialize once or take <code>IReadOnlyCollection</code>.',
+      'Calling <code>.Count() &gt; 0</code> instead of <code>.Any()</code> — <code>Count()</code> may walk the whole sequence.',
+      'Building filters with C# methods inside an EF <code>IQueryable</code> — throws or silently client-evaluates after fetching everything.',
+      'Reaching for <code>AsParallel()</code> on a cheap or order-sensitive pipeline — overhead and ordering surprises usually make it slower.'
+    ],
+    staff:[
+      'LINQ readability vs performance is a real trade-off on hot paths — be able to say when you\'d drop to a hand-rolled loop or <code>Span</code> and show the benchmark that justified it.',
+      'In EF-backed code, owning the <code>IQueryable</code> boundary (where translation ends) is an architectural concern — leak it into a repository and you lose control of when queries execute.',
+      'Teach the team to read execution plans, not just LINQ — the elegant query and the fast query are sometimes different.'
+    ]
+  },
+
+  {
+    id:'async', icon:'async', tag:'Core',
+    title:'Async / Await & Multithreading',
+    blurb:'Concurrency ≠ parallelism. The state machine and the captured context explain most bugs.',
+    map:[
+      '<b>async/await:</b> the compiler-built state machine, <code>Task</code> vs <code>ValueTask</code>',
+      '<b>Context:</b> <code>SynchronizationContext</code>, <code>ConfigureAwait(false)</code>',
+      '<b>Parallelism:</b> <code>Task.Run</code>, <code>Parallel.For/ForEach</code>, PLINQ, the thread pool',
+      '<b>Coordination:</b> <code>lock</code>/<code>Monitor</code>, <code>SemaphoreSlim</code>, <code>Interlocked</code>, <code>ReaderWriterLockSlim</code>',
+      '<b>Streams &amp; pipes:</b> <code>IAsyncEnumerable</code>, <code>Channel&lt;T&gt;</code>, <code>CancellationToken</code>'
+    ],
+    deep:[
+      '<code>await</code> doesn\'t spawn a thread. The compiler rewrites the method into a <b>state machine</b>; at the first incomplete <code>await</code> it returns a <code>Task</code> to the caller and registers a continuation to resume when the awaited operation completes — often on a different thread.',
+      'On UI / classic ASP.NET there\'s a <code>SynchronizationContext</code>; the continuation marshals back to it. Blocking that thread with <code>.Result</code>/<code>.Wait()</code> while the continuation needs it → <b>deadlock</b>. ASP.NET Core has <b>no</b> SyncContext, so the deadlock pattern differs but blocking still starves the pool.',
+      '<code>ConfigureAwait(false)</code> says "don\'t capture the context" — essential in <b>library</b> code to avoid forcing continuations onto a contended context. Less needed in ASP.NET Core app code.',
+      '<code>ValueTask</code> avoids a heap allocation when the result is usually synchronous, but it\'s <b>single-consumption</b>: don\'t await it twice, don\'t store it, don\'t <code>WhenAll</code> it. Default to <code>Task</code> unless a hot path proves the allocation matters.',
+      'Concurrency primitives differ: <code>lock</code> is for short critical sections (sync only — never <code>await</code> inside); <code>SemaphoreSlim</code> has <code>WaitAsync</code> for async throttling; <code>Interlocked</code> for lock-free counters; <code>volatile</code>/<code>Volatile</code> only fixes <i>visibility</i>, not atomicity.'
+    ],
+    code:`<span class="c">// ❌ Sync-over-async — deadlocks on a captured context, starves the pool</span>
+<span class="k">var</span> data = GetAsync().Result;
+
+<span class="c">// ✅ Async all the way; cancellation + no context capture in libs</span>
+<span class="k">async</span> <span class="t">Task</span>&lt;<span class="t">Data</span>&gt; LoadAsync(<span class="t">CancellationToken</span> ct) {
+    <span class="k">await using var</span> _ = <span class="k">await</span> _sem.WaitAsync(ct);   <span class="c">// throttle</span>
+    <span class="k">return await</span> _http.GetAsync(ct).ConfigureAwait(<span class="k">false</span>);
+}
+
+<span class="c">// async void only ever for event handlers — its exceptions crash the process</span>
+<span class="k">async void</span> Button_Click(...) { ... }`,
+    ask:[
+      '<span class="q">Explain what the compiler generates for an <code>async</code> method. Where does the thread go during the await?</span>',
+      '<span class="q">Walk me through the classic sync-over-async deadlock. Why doesn\'t it reproduce identically in ASP.NET Core?</span>',
+      '<span class="q"><code>Task</code> vs <code>ValueTask</code> — when is <code>ValueTask</code> worth it and how can it bite you?</span>',
+      '<span class="q">Why is <code>async void</code> dangerous, and what\'s the one place it\'s legitimate?</span>',
+      '<span class="q">Difference between <code>lock</code>, <code>SemaphoreSlim</code>, and <code>Interlocked</code>? Why can\'t you <code>await</code> inside a <code>lock</code>?</span>',
+      '<span class="q">When would you choose <code>Channel&lt;T&gt;</code> over a <code>ConcurrentQueue</code> + signaling?</span>'
+    ],
+    watch:[
+      '<code>.Result</code> / <code>.Wait()</code> / <code>.GetAwaiter().GetResult()</code> on async code — deadlock or pool starvation. The cardinal sin.',
+      'Swallowing exceptions in <code>async void</code> — they bypass <code>try/catch</code> at the call site and tear down the app.',
+      'Fire-and-forget <code>Task</code>s with no <code>await</code> and no continuation — unobserved exceptions and lost work.',
+      'Assuming <code>await Task.Run(...)</code> makes CPU-bound code "async" on the server — it just moves work to another pool thread; in a web request that often hurts throughput.',
+      'Capturing a <code>CancellationToken</code> but never checking/passing it — cancellation that does nothing.'
+    ],
+    staff:[
+      'Thread-pool starvation is a top production incident in .NET services — be able to describe symptoms (latency cliff, growing queue) and diagnosis (<code>dotnet-counters</code>, <code>ThreadPool</code> queue length).',
+      'Decide the concurrency model deliberately: per-request async I/O vs background workers vs a dataflow/Channel pipeline — each has different backpressure and failure semantics.',
+      'Set the team norm: async all the way, <code>CancellationToken</code> threaded through public async APIs, no sync-over-async in shared libraries.'
+    ]
+  },
+
+  {
+    id:'exception', icon:'exception', tag:'Core',
+    title:'Exception Handling',
+    blurb:'A strategy, not a reflex. Catch where you can add value, fail loud everywhere else.',
+    map:[
+      '<b>Mechanics:</b> <code>try/catch/finally</code>, exception filters (<code>when</code>), rethrow semantics',
+      '<b>Types:</b> the hierarchy, custom exceptions, <code>AggregateException</code>',
+      '<b>Async:</b> how exceptions surface through <code>Task</code>, <code>await</code>, and <code>WhenAll</code>',
+      '<b>Global nets:</b> middleware, <code>AppDomain.UnhandledException</code>, <code>TaskScheduler.UnobservedTaskException</code>',
+      '<b>Alternatives:</b> the Result / <code>TryParse</code> pattern vs throwing'
+    ],
+    deep:[
+      '<code>throw;</code> preserves the original stack trace; <code>throw ex;</code> <b>resets</b> it (loses the origin). To rethrow a captured exception across await boundaries use <code>ExceptionDispatchInfo.Capture(ex).Throw()</code>.',
+      'Exception <b>filters</b> (<code>catch (X e) when (cond)</code>) evaluate without unwinding the stack — so the original frame is still intact for logging, and you avoid catch-and-rethrow. Use them for conditional handling and side-effect-free logging.',
+      '<code>finally</code> runs on normal exit, exception, and <code>return</code> — but <b>not</b> on <code>Environment.FailFast</code>, a <code>StackOverflowException</code>, or process kill. Don\'t put critical durability there.',
+      'Throwing is <b>expensive</b> (stack capture). Don\'t use exceptions for control flow on hot paths — that\'s what <code>TryGetValue</code>/<code>TryParse</code> exist for.',
+      'In async, the exception is stored on the <code>Task</code> and re-thrown at <code>await</code>. <code>Task.WhenAll</code> surfaces only the <b>first</b> exception via <code>await</code>; the rest hide in <code>task.Exception</code> (<code>AggregateException</code>).'
+    ],
+    code:`<span class="c">// Filter: log without unwinding, then let it propagate</span>
+<span class="k">try</span> { <span class="k">await</span> Process(); }
+<span class="k">catch</span> (<span class="t">HttpRequestException</span> e) <span class="k">when</span> (Log(e)) { <span class="c">/* never reached */</span> }
+
+<span class="c">// Preserve original stack when rethrowing later</span>
+<span class="t">ExceptionDispatchInfo</span> captured = <span class="k">null</span>;
+<span class="k">try</span> { ... } <span class="k">catch</span> (<span class="t">Exception</span> e) { captured = <span class="t">ExceptionDispatchInfo</span>.Capture(e); }
+captured?.Throw();   <span class="c">// stack intact</span>`,
+    ask:[
+      '<span class="q"><code>throw;</code> vs <code>throw ex;</code> — what\'s the observable difference and why does it matter in production?</span>',
+      '<span class="q">What are exception filters and when do they beat catch-and-rethrow?</span>',
+      '<span class="q">How do exceptions propagate through <code>await</code> and <code>Task.WhenAll</code>? Where do the "lost" ones go?</span>',
+      '<span class="q">When would you design with a Result type instead of throwing?</span>',
+      '<span class="q">Where do you put the global handler in an ASP.NET Core app, and what should it return to the client?</span>'
+    ],
+    watch:[
+      'Catch-all <code>catch (Exception)</code> that logs and swallows — hides bugs and corrupts state. Catch specific, or let it bubble.',
+      'Using exceptions for expected outcomes (validation, "not found") on hot paths — measurable overhead and noise.',
+      'Empty <code>catch {}</code> blocks. Instant red flag.',
+      'Leaking stack traces / internal messages to API clients — return RFC 9457 Problem Details, log the detail server-side.',
+      'Catching <code>OperationCanceledException</code> and treating cancellation as an error — it usually isn\'t.'
+    ],
+    staff:[
+      'Define the org\'s error contract: typed domain failures vs exceptions, a consistent Problem Details shape, correlation IDs, and what\'s safe to expose.',
+      'Distinguish <b>recoverable</b> (retry, degrade, fall back) from <b>fatal</b> (fail fast, alert) — and wire each to the right observability signal.',
+      'Exceptions are an observability event: structured logging + traces so an on-call engineer can find the origin in seconds, not greps.'
+    ]
+  },
+
+  {
+    id:'delegate', icon:'delegate', tag:'Core',
+    title:'Delegates, Events & Lambdas',
+    blurb:'Type-safe function pointers — and the closures and event leaks that come with them.',
+    map:[
+      '<b>Delegates:</b> single &amp; multicast, <code>Func</code> / <code>Action</code> / <code>Predicate</code>',
+      '<b>Events:</b> the <code>event</code> keyword, <code>EventHandler&lt;T&gt;</code>, custom add/remove accessors',
+      '<b>Lambdas:</b> capture &amp; closures; delegate vs <code>Expression&lt;T&gt;</code>',
+      '<b>Patterns:</b> callbacks, the observer pattern, weak events',
+      '<b>Pitfalls:</b> captured-variable surprises, event-driven memory leaks'
+    ],
+    deep:[
+      'A delegate is an immutable object holding a target + method pointer; <code>+=</code> builds a <b>multicast invocation list</b>. Invoking runs them in order and returns the <b>last</b> return value — earlier returns are lost (use explicit <code>GetInvocationList()</code> if you need each).',
+      'An <code>event</code> is a delegate field with restricted access: outside the declaring type you can only <code>+=</code>/<code>-=</code>, not invoke or null it. That encapsulation is the whole point of <code>event</code> over a public delegate.',
+      '<b>Closures</b> hoist captured variables into a compiler-generated class — the lambda captures the <i>variable</i>, not the value. Since C# 5 the <code>foreach</code> variable is per-iteration, but a <code>for</code> loop counter is still shared — capture it into a local first.',
+      'A lambda becomes a <b>delegate</b> (compiled code) or an <b>expression tree</b> (<code>Expression&lt;Func&lt;...&gt;&gt;</code>, inspectable data) depending on the target type. EF\'s <code>Where</code> takes the latter so it can translate to SQL.',
+      'The big leak: subscribing a long-lived publisher to a short-lived subscriber\'s handler keeps the <b>subscriber alive</b> (the publisher holds a reference). Always <code>-=</code> on dispose, or use a weak-event pattern.'
+    ],
+    code:`<span class="c">// Closure capture: print 0..2, not 3,3,3</span>
+<span class="k">for</span> (<span class="k">int</span> i = <span class="n">0</span>; i &lt; <span class="n">3</span>; i++) {
+    <span class="k">int</span> local = i;                 <span class="c">// capture the value, not the counter</span>
+    actions.Add(() =&gt; Console.WriteLine(local));
+}
+
+<span class="c">// Event leak fix: unsubscribe on dispose</span>
+publisher.DataChanged += OnChanged;
+<span class="c">// ...</span>
+publisher.DataChanged -= OnChanged;   <span class="c">// or you keep 'this' alive forever</span>`,
+    ask:[
+      '<span class="q">Delegate vs event — what does <code>event</code> actually restrict, and why?</span>',
+      '<span class="q">Explain a closure. What\'s the difference between capturing a <code>for</code> counter and a <code>foreach</code> variable?</span>',
+      '<span class="q">How can events cause memory leaks, and how do you prevent them?</span>',
+      '<span class="q"><code>Func&lt;T&gt;</code> vs <code>Expression&lt;Func&lt;T&gt;&gt;</code> — why does EF need the second?</span>',
+      '<span class="q">What does a multicast delegate return, and how do you collect every result?</span>'
+    ],
+    watch:[
+      'Assuming <code>+= / -=</code> are thread-safe in custom event raise code — copy the handler to a local before invoking, or use the field-like event\'s built-in sync.',
+      'Capturing <code>this</code> implicitly in a lambda handed to a long-lived object — keeps the whole object graph alive.',
+      'Forgetting that invoking a multicast delegate throws on the first handler that throws — the rest never run.',
+      'Mixing up delegate and expression-tree lambdas in EF and wondering why a query client-evaluates.'
+    ],
+    staff:[
+      'Events vs an in-process message bus / <code>IObservable</code> / mediator — pick based on coupling, testability, and whether you need many-to-many fan-out.',
+      'Weak-event patterns and lifecycle ownership matter in long-running desktop/services — be the one who spots the leak in review.',
+      'Prefer immutable delegates + explicit subscription lifecycle over ambient event spaghetti in shared libraries.'
+    ]
+  },
+
+  {
+    id:'memory', icon:'memory', tag:'Runtime',
+    title:'Memory Management & GC',
+    blurb:'A managed heap with generations. Know what allocates, what survives, and what leaks.',
+    map:[
+      '<b>Layout:</b> stack vs heap, value vs reference types, boxing',
+      '<b>GC model:</b> generations 0/1/2, the Large Object Heap (LOH)',
+      '<b>GC flavors:</b> workstation vs server, concurrent / background',
+      '<b>Cleanup:</b> <code>IDisposable</code>, finalizers, the dispose pattern, <code>using</code>',
+      '<b>Tuning &amp; avoidance:</b> pooling, <code>Span</code>/<code>stackalloc</code>, weak references, leaks'
+    ],
+    deep:[
+      'The GC is <b>generational</b> on the theory that most objects die young. New objects start in <b>gen 0</b> (cheap, frequent collections); survivors promote to gen 1, then gen 2 (long-lived, expensive full collections). Objects ≥ <b>85,000 bytes</b> go straight to the <b>LOH</b>, collected with gen 2 and <b>not compacted</b> by default — a fragmentation risk.',
+      '<b>Server GC</b> (multiple heaps + threads, default for ASP.NET) maximizes throughput; <b>workstation GC</b> minimizes pause for desktop UIs. <b>Background GC</b> does gen-2 collection concurrently to shrink pauses.',
+      'Value types live where they\'re declared (stack as locals, inline in their containing object on the heap). <b>Boxing</b> a value type allocates a heap object + copies — a silent allocation source in <code>object</code>/non-generic APIs and string interpolation of structs.',
+      'A type with a <b>finalizer</b> survives an extra GC: it\'s placed on the finalization queue, the finalizer runs on a dedicated thread, then it\'s collected on the <i>next</i> GC. The dispose pattern + <code>GC.SuppressFinalize(this)</code> avoids that penalty when you\'ve cleaned up deterministically.',
+      '"Leaks" in managed code are <b>unintended references</b>: static collections that grow forever, event subscriptions never removed, captured closures, undisposed native handles. The GC can\'t collect what something still points to.'
+    ],
+    code:`<span class="c">// Canonical dispose pattern</span>
+<span class="k">public class</span> <span class="t">Resource</span> : <span class="t">IDisposable</span> {
+    <span class="k">private bool</span> _disposed;
+    <span class="k">public void</span> Dispose() { Dispose(<span class="k">true</span>); <span class="t">GC</span>.SuppressFinalize(<span class="k">this</span>); }
+    <span class="k">protected virtual void</span> Dispose(<span class="k">bool</span> disposing) {
+        <span class="k">if</span> (_disposed) <span class="k">return</span>;
+        <span class="k">if</span> (disposing) { <span class="c">/* free managed */</span> }
+        <span class="c">/* free native handles here */</span>
+        _disposed = <span class="k">true</span>;
+    }
+    ~<span class="t">Resource</span>() =&gt; Dispose(<span class="k">false</span>);   <span class="c">// only if you own native resources</span>
+}`,
+    ask:[
+      '<span class="q">Walk me through a gen-0 collection. What promotes an object to gen 2?</span>',
+      '<span class="q">What\'s special about the LOH, and how do you avoid fragmenting it?</span>',
+      '<span class="q">Server vs workstation GC — which for a web API and why?</span>',
+      '<span class="q">Why is <code>GC.Collect()</code> almost always wrong in app code?</span>',
+      '<span class="q">Finalizer vs <code>Dispose</code> vs <code>SuppressFinalize</code> — how do they interact?</span>',
+      '<span class="q">Show me three ways managed code "leaks" memory.</span>'
+    ],
+    watch:[
+      'Calling <code>GC.Collect()</code> to "fix" memory — usually hurts by forcing premature promotion and pauses.',
+      'Implementing a finalizer you don\'t need (no native resources) — adds GC cost for nothing.',
+      'Conflating "out of scope" with "collected" — the GC runs on its own schedule, references decide collectability.',
+      'Large short-lived arrays / buffers churning the LOH — pool them with <code>ArrayPool&lt;T&gt;</code> instead.',
+      'Static caches with no eviction — the textbook managed leak.'
+    ],
+    staff:[
+      'Diagnose, don\'t guess: <code>dotnet-counters</code> for gen sizes / alloc rate, <code>dotnet-gcdump</code> + a heap diff to find the retaining root. Bring that workflow to the interview.',
+      'Allocation reduction is a deliberate tactic on hot paths — <code>Span</code>/<code>stackalloc</code>, pooling, <code>struct</code>s, <code>ArrayPool</code> — measured with BenchmarkDotNet, not vibes.',
+      'GC config (server GC, <code>TieredPGO</code>, concurrent settings) is a real ops lever — know the trade-off between pause time and throughput for your workload.'
+    ]
+  },
+
+  {
+    id:'di', icon:'di', tag:'Architecture',
+    title:'Dependency Injection',
+    blurb:'Lifetimes are everything. Get them wrong and you ship subtle, intermittent bugs.',
+    map:[
+      '<b>Lifetimes:</b> Singleton, Scoped, Transient',
+      '<b>Registration:</b> open generics, multiple impls, decorators, keyed services',
+      '<b>Resolution:</b> constructor injection, <code>IServiceProvider</code>, scopes',
+      '<b>Config:</b> the Options pattern (<code>IOptions</code>/<code>IOptionsSnapshot</code>/<code>IOptionsMonitor</code>)',
+      '<b>Anti-patterns:</b> captive dependencies, service locator'
+    ],
+    deep:[
+      '<b>Singleton</b> = one instance for the app; <b>Scoped</b> = one per scope (per HTTP request in ASP.NET Core); <b>Transient</b> = a new one every resolve. The container <b>owns disposal</b> of the instances it creates — scoped/transient <code>IDisposable</code>s are disposed when the scope ends.',
+      'The <b>captive dependency</b> bug: inject a <b>scoped</b> (or transient) service into a <b>singleton</b>, and the longer-lived object captures it — the scoped service now lives forever, and you read stale/leaked state. ASP.NET Core\'s scope-validation throws on this in development.',
+      'Don\'t inject a <code>DbContext</code> (scoped) into a singleton, and don\'t resolve scoped services from the <b>root</b> provider. Need a scoped service inside a singleton/background service? Create a scope explicitly with <code>IServiceScopeFactory</code>.',
+      'Registration depth: <b>last registration wins</b> for a single resolve; inject <code>IEnumerable&lt;T&gt;</code> to get all. <b>Open generics</b> (<code>services.AddScoped(typeof(IRepo&lt;&gt;), typeof(Repo&lt;&gt;))</code>) wire a family in one line. <b>Keyed services</b> (.NET 8) let you resolve by key.',
+      'Options: <code>IOptions&lt;T&gt;</code> is singleton (read once); <code>IOptionsSnapshot&lt;T&gt;</code> is scoped (per-request reload); <code>IOptionsMonitor&lt;T&gt;</code> is singleton with live change notifications.'
+    ],
+    code:`<span class="c">// Captive dependency — DO NOT: scoped DbContext trapped in a singleton</span>
+services.AddSingleton&lt;<span class="t">Cache</span>&gt;();   <span class="c">// ctor takes AppDbContext (scoped) → bug</span>
+
+<span class="c">// Fix: resolve a fresh scope when you actually need it</span>
+<span class="k">using var</span> scope = _scopeFactory.CreateScope();
+<span class="k">var</span> db = scope.ServiceProvider.GetRequiredService&lt;<span class="t">AppDbContext</span>&gt;();`,
+    ask:[
+      '<span class="q">Singleton vs Scoped vs Transient — give a real example where each is the right choice.</span>',
+      '<span class="q">What\'s a captive dependency? Show me how injecting a <code>DbContext</code> into a singleton breaks.</span>',
+      '<span class="q">How does the container handle disposal across lifetimes?</span>',
+      '<span class="q">Why is the service-locator pattern an anti-pattern, and when is it a pragmatic exception?</span>',
+      '<span class="q">How do you register and resolve multiple implementations of one interface?</span>',
+      '<span class="q"><code>IOptions</code> vs <code>IOptionsSnapshot</code> vs <code>IOptionsMonitor</code> — which reloads, which doesn\'t?</span>'
+    ],
+    watch:[
+      'Injecting scoped/transient into a singleton (the captive dependency) — intermittent, hard-to-repro bugs.',
+      'Service locator (<code>provider.GetService</code> sprinkled in code) — hides dependencies and breaks testability.',
+      'Fat constructors with 8+ dependencies — a design smell pointing at a class doing too much (SRP).',
+      'Resolving scoped services in <code>BackgroundService.ExecuteAsync</code> without creating a scope — captures or throws.',
+      'Registering a stateful/non-thread-safe service as a singleton.'
+    ],
+    staff:[
+      'DI is a seam for testability and modularity, not a goal — push back on over-abstracting (an interface per class "just in case") and on the container becoming a god object.',
+      'Composition-root discipline: dependencies declared in constructors, wiring in one place, no <code>new</code>-ing of services deep in the code.',
+      'Know when a different IoC container or source-generated DI is worth it (startup time, AOT) — and when the built-in container is plenty.'
+    ]
+  },
+
+  {
+    id:'patterns', icon:'patterns', tag:'Architecture',
+    title:'Design Patterns',
+    blurb:'Patterns are a vocabulary for trade-offs — not boxes to tick. Know when each is wrong.',
+    map:[
+      '<b>SOLID</b> — the principles patterns serve',
+      '<b>Creational:</b> Factory, Abstract Factory, Builder, Singleton, Prototype',
+      '<b>Structural:</b> Adapter, Decorator, Facade, Proxy, Composite',
+      '<b>Behavioral:</b> Strategy, Observer, Mediator, Command, Chain of Responsibility, State, Template Method',
+      '<b>Application/DDD:</b> Repository, Unit of Work, CQRS, Specification, domain events'
+    ],
+    deep:[
+      '<b>SOLID</b> underpins the rest: Single Responsibility (one reason to change), Open/Closed (extend without modifying — Strategy/Decorator), Liskov (subtypes substitutable), Interface Segregation (small focused interfaces), Dependency Inversion (depend on abstractions — what DI operationalizes).',
+      '<b>Strategy</b> swaps an algorithm behind an interface (often the answer to "remove this <code>switch</code>"). <b>Decorator</b> wraps to add behavior (logging, caching, retry) without touching the original — the DI-friendly alternative to inheritance.',
+      '<b>Factory</b> centralizes complex/conditional construction; <b>Builder</b> assembles an object step-by-step (great for immutable types with many options). <b>Mediator</b> decouples senders from handlers (MediatR-style request/handler) and is the backbone of many CQRS setups.',
+      '<b>Repository + Unit of Work</b> abstract persistence — but EF Core\'s <code>DbContext</code> <i>is</i> a Unit of Work and <code>DbSet</code> <i>is</i> a repository, so a thin extra layer often adds little. Justify it (testing, multiple stores) rather than cargo-culting it.',
+      '<b>CQRS</b> separates the read model from the write model — powerful when their shapes and scaling needs genuinely diverge; overkill (and a consistency tax) when they don\'t.'
+    ],
+    ask:[
+      '<span class="q">You see a growing <code>switch</code> on a type code. Which pattern, and what does it buy you?</span> (Strategy / polymorphism)',
+      '<span class="q">Add caching and logging to a service without editing it or exploding subclasses — how?</span> (Decorator + DI)',
+      '<span class="q">Where does Repository/UoW add value over using <code>DbContext</code> directly, and where is it ceremony?</span>',
+      '<span class="q">When is CQRS worth the complexity, and what consistency cost does it bring?</span>',
+      '<span class="q">Give a Liskov violation you\'ve seen and how you\'d fix it.</span>',
+      '<span class="q">Singleton: pattern or anti-pattern? Defend your answer.</span>'
+    ],
+    watch:[
+      'Reciting Gang-of-Four definitions without trade-offs — interviewers want the "when not to."',
+      'Pattern soup: applying five patterns to a problem that needed a function. Over-engineering is a staff-level disqualifier.',
+      'Treating <b>Singleton</b> as harmless — global mutable state, hidden coupling, testability pain.',
+      'A generic <code>Repository&lt;T&gt;</code> that just re-wraps EF — leaky abstraction with negative value.',
+      'Confusing the <b>pattern</b> with a specific library (MediatR ≠ the Mediator pattern; it\'s one implementation).'
+    ],
+    staff:[
+      'Patterns are communication: naming one in a design doc conveys intent and trade-offs to the team faster than prose.',
+      'Architectural styles scale the conversation up — layered/clean/hexagonal, modular monolith vs microservices, event-driven — pick by team size, coupling, and operational maturity, not fashion.',
+      'The senior-to-staff jump is judgment about <b>when not</b> to add structure. Defend simplicity; let patterns earn their place against a concrete force.'
+    ]
+  },
+
+  {
+    id:'ef', icon:'ef', tag:'Data',
+    title:'Entity Framework Core',
+    blurb:'A change tracker that generates SQL. Most EF problems are tracking or N+1 in disguise.',
+    map:[
+      '<b>Change tracking:</b> states, <code>SaveChanges</code>, <code>AsNoTracking</code>',
+      '<b>Loading:</b> eager (<code>Include</code>), explicit, lazy — and N+1',
+      '<b>Query shape:</b> single vs split query, projection, compiled queries',
+      '<b>Integrity:</b> transactions, optimistic concurrency, connection resiliency',
+      '<b>Modeling &amp; perf:</b> migrations, owned types, query filters, <code>DbContext</code> pooling'
+    ],
+    deep:[
+      'The <b>change tracker</b> snapshots loaded entities; <code>SaveChanges</code> diffs them and emits the minimal <code>INSERT/UPDATE/DELETE</code> in a transaction. Read-only queries pay for tracking they don\'t need — <code>AsNoTracking()</code> skips the snapshot for a real speedup on large reads.',
+      '<b>N+1</b> is the classic EF performance bug: iterate parents and lazily touch a navigation → one query per parent. Fix with <code>Include</code> (eager) or a projection. But multiple collection <code>Include</code>s cause a <b>cartesian explosion</b> (row multiplication) — that\'s when <code>AsSplitQuery()</code> earns its keep (more round-trips, far less duplicated data).',
+      'Project to exactly what you need (<code>Select</code> into a DTO) so EF fetches only those columns and skips tracking entirely — usually the fastest read path.',
+      '<b>Optimistic concurrency</b>: a <code>[Timestamp]</code>/<code>rowversion</code> column goes into the <code>WHERE</code> clause; if the row changed underneath you, <code>SaveChanges</code> throws <code>DbUpdateConcurrencyException</code> and you reconcile (client-wins / store-wins / merge).',
+      '<code>DbContext</code> is <b>not thread-safe</b> and is meant to be short-lived (scoped per request). Never share one across threads or make it a singleton. <code>AddDbContextPool</code> reuses context instances to cut allocation on high-throughput APIs.'
+    ],
+    code:`<span class="c">// N+1 → one query; project to a DTO, no tracking needed</span>
+<span class="k">var</span> rows = <span class="k">await</span> db.Orders
+    .<span class="t">Where</span>(o =&gt; o.Date &gt;= since)
+    .<span class="t">Select</span>(o =&gt; <span class="k">new</span> OrderDto(o.Id, o.Customer.Name, o.Lines.Count))
+    .<span class="t">ToListAsync</span>(ct);
+
+<span class="c">// Multiple collection includes → avoid cartesian blow-up</span>
+<span class="k">var</span> blog = <span class="k">await</span> db.Blogs
+    .<span class="t">Include</span>(b =&gt; b.Posts).<span class="t">Include</span>(b =&gt; b.Authors)
+    .<span class="t">AsSplitQuery</span>()
+    .<span class="t">FirstAsync</span>(ct);`,
+    ask:[
+      '<span class="q">What is the change tracker, and when does <code>AsNoTracking</code> matter?</span>',
+      '<span class="q">Diagnose an N+1: how do you spot it and what are your fixes?</span>',
+      '<span class="q">Single query vs split query — what problem does <code>AsSplitQuery</code> solve and what does it cost?</span>',
+      '<span class="q">How does optimistic concurrency work in EF Core, and how do you resolve a conflict?</span>',
+      '<span class="q">Why must a <code>DbContext</code> be scoped, and what does context pooling change?</span>',
+      '<span class="q">How do you do a bulk update of 100k rows efficiently?</span> (<code>ExecuteUpdate</code>/bulk libs vs load-and-save)'
+    ],
+    watch:[
+      'Lazy loading on by default in a loop → N+1 you didn\'t write on purpose.',
+      'Tracking large read-only result sets → wasted memory + CPU on snapshots.',
+      'Stacking collection <code>Include</code>s and shipping a cartesian explosion.',
+      'Calling <code>SaveChanges</code> inside a loop instead of batching one round-trip.',
+      'Sharing a <code>DbContext</code> across requests/threads → race conditions and corrupt tracking state.',
+      'Client-evaluating filters EF couldn\'t translate — pulling the table into memory.'
+    ],
+    staff:[
+      'Own the boundary between domain and persistence: where queries execute, what leaks an <code>IQueryable</code>, and how migrations ship safely (expand/contract for zero-downtime schema changes).',
+      'Know when to drop to raw SQL, a stored proc, or a bulk library — and when an ORM is the wrong tool for an analytical/bulk workload entirely.',
+      'Make EF observable: log generated SQL, watch query counts per request, and set the team norm of reviewing the SQL, not just the LINQ.'
+    ]
+  },
+
+  {
+    id:'rest', icon:'rest', tag:'Web',
+    title:'REST API Development',
+    blurb:'Resources, verbs, and status codes used precisely — plus the design calls that age well.',
+    map:[
+      '<b>Semantics:</b> verbs, idempotency, safe methods, status codes',
+      '<b>Maturity:</b> Richardson model, HATEOAS (and whether you need it)',
+      '<b>Evolution:</b> versioning, content negotiation, pagination/filtering/sorting',
+      '<b>Contracts:</b> Problem Details (RFC 9457), validation, OpenAPI',
+      '<b>Hosting:</b> Minimal APIs vs controllers, model binding'
+    ],
+    deep:[
+      '<b>Safe</b> methods (<code>GET</code>, <code>HEAD</code>) don\'t mutate. <b>Idempotent</b> methods (<code>GET</code>, <code>PUT</code>, <code>DELETE</code>) give the same result on repeat — critical because clients and proxies <b>retry</b>. <code>POST</code> is neither, so creating with <code>POST</code> needs an <b>idempotency key</b> if retries can duplicate.',
+      'Status codes carry meaning: <code>200/201/204</code> success (201 + <code>Location</code> for create, 204 for no-body), <code>400</code> client error, <code>401</code> vs <code>403</code> (unauthenticated vs forbidden), <code>404</code>, <code>409</code> conflict, <code>422</code> validation, <code>429</code> rate-limited, <code>5xx</code> server. Misusing 200-with-error-body is a tell.',
+      '<b>Versioning</b> options — URL segment (<code>/v2/...</code>, most visible), header, media-type, query string — each trades discoverability vs cleanliness. Pick one and apply it consistently; design for additive, non-breaking change first.',
+      '<b>Pagination</b>: offset/limit is simple but drifts and slows on deep pages; <b>cursor/keyset</b> is stable and fast at scale. Return total/next-cursor in a predictable envelope.',
+      'Errors: standardize on <b>Problem Details</b> (<code>application/problem+json</code>, RFC 7807 → 9457) so every client parses failures the same way, with a correlation id for support.'
+    ],
+    ask:[
+      '<span class="q">Which HTTP methods are idempotent, and why does that matter for retries and proxies?</span>',
+      '<span class="q"><code>PUT</code> vs <code>PATCH</code> vs <code>POST</code> — when each, and what status do you return?</span>',
+      '<span class="q">401 vs 403 vs 422 — give me a request that fits each.</span>',
+      '<span class="q">Offset vs cursor pagination — trade-offs at scale?</span>',
+      '<span class="q">How do you version a public API without breaking existing clients?</span>',
+      '<span class="q">How do you make a <code>POST</code> safe to retry?</span> (idempotency keys)'
+    ],
+    watch:[
+      'Returning <code>200 OK</code> with an error payload — breaks clients, monitoring, and retries.',
+      'Verbs in the URL (<code>/getUsers</code>, <code>/createOrder</code>) — REST is resources + methods.',
+      'Unbounded list endpoints with no pagination — a latency and memory time bomb.',
+      'Leaking internal exceptions / stack traces instead of Problem Details.',
+      'Breaking changes shipped without a version bump — silent client breakage.',
+      'Treating <code>PUT</code> as a partial update (that\'s <code>PATCH</code>).'
+    ],
+    staff:[
+      'API design is a long-lived contract — argue versioning strategy, deprecation policy, and backward compatibility as product decisions, not implementation details.',
+      'Cross-cutting concerns belong in the platform: auth, rate limiting, idempotency, pagination conventions, error shape — codified so every team\'s API behaves consistently.',
+      'Know where REST stops being the right tool — gRPC for chatty internal service-to-service, GraphQL for client-driven aggregation — and articulate the trade-off.'
+    ]
+  },
+
+  {
+    id:'middleware', icon:'middleware', tag:'Web',
+    title:'Middleware in ASP.NET Core',
+    blurb:'A request pipeline where order is behavior. Each component sees request in, response out.',
+    map:[
+      '<b>Pipeline:</b> <code>Use</code> / <code>Run</code> / <code>Map</code> / <code>MapWhen</code>, short-circuiting',
+      '<b>Order:</b> the canonical built-in sequence and why it\'s fixed',
+      '<b>Custom:</b> inline vs convention-based vs factory-based (<code>IMiddleware</code>)',
+      '<b>DI in the pipeline:</b> constructor (singleton) vs <code>Invoke</code> (scoped)',
+      '<b>Routing &amp; endpoints:</b> endpoint routing, filters vs middleware'
+    ],
+    deep:[
+      'The pipeline is a chain of <code>RequestDelegate</code>s. Each middleware does work, calls <code>await next(context)</code> to pass control inward, then runs more code as the response <b>unwinds back out</b> — so a single component can act on both the request and the response. Skip <code>next()</code> and you <b>short-circuit</b> (e.g. auth rejecting early).',
+      '<b>Order is the behavior.</b> The canonical sequence: exception handler → HSTS → HTTPS redirection → static files → routing → CORS → authentication → authorization → endpoints. Misorder it and things silently break: put auth before routing and endpoint metadata isn\'t available; static files sit <b>before</b> auth, so they\'re served without authorization by default.',
+      'Three ways to write one: inline <code>app.Use(async (ctx, next) =&gt; ...)</code>; <b>convention-based</b> (a class with a constructor + <code>InvokeAsync</code>); <b>factory-based</b> implementing <code>IMiddleware</code> (resolved from DI per request, so it can be scoped).',
+      'DI gotcha: in convention-based middleware the constructor runs <b>once</b> (singleton lifetime), so <b>scoped</b> services (like <code>DbContext</code>) must be parameters of <code>InvokeAsync</code>, not the constructor — otherwise you get a captive dependency.',
+      '<b>Middleware vs filters/endpoint filters:</b> middleware is pipeline-wide and framework-agnostic; filters run within MVC/endpoint execution with access to model state and action context. Choose by how much framework context you need.'
+    ],
+    code:`<span class="c">// Order matters — auth before authorization, both after routing</span>
+app.UseExceptionHandler(<span class="s">"/error"</span>);
+app.UseHttpsRedirection();
+app.UseStaticFiles();        <span class="c">// served WITHOUT auth by default</span>
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+<span class="c">// Scoped service belongs in InvokeAsync, not the constructor</span>
+<span class="k">public async</span> <span class="t">Task</span> InvokeAsync(<span class="t">HttpContext</span> ctx, <span class="t">AppDbContext</span> db) { ... }`,
+    ask:[
+      '<span class="q">Walk me through the request pipeline. What does calling (or not calling) <code>next()</code> do?</span>',
+      '<span class="q">Why does middleware order matter? Give a bug caused by misordering.</span>',
+      '<span class="q">Why can\'t you inject a scoped service into a convention-based middleware\'s constructor?</span>',
+      '<span class="q">Middleware vs action filter vs endpoint filter — when each?</span>',
+      '<span class="q">How would you write middleware that times every request and adds a correlation id?</span>',
+      '<span class="q">Where do exception-handling and authentication sit, and why there?</span>'
+    ],
+    watch:[
+      'Putting <code>UseAuthorization</code> before <code>UseAuthentication</code>, or either before <code>UseRouting</code> — auth silently misbehaves.',
+      'Injecting scoped services into a convention-based middleware ctor — captive dependency.',
+      'Forgetting to call <code>next()</code> and accidentally short-circuiting the whole pipeline.',
+      'Reading/writing the response body after it\'s started — throws or corrupts output.',
+      'Assuming static files are protected — by default they\'re served before the auth middleware.'
+    ],
+    staff:[
+      'Cross-cutting concerns (correlation ids, structured request logging, exception shaping, rate limiting) belong in middleware — standardize them so every service is observable the same way.',
+      'Understand the cost of pipeline position: heavy middleware on every request adds latency to all of it; scope it with <code>MapWhen</code>/branch where possible.',
+      'Be deliberate about middleware vs filters vs the platform/gateway — push truly global concerns (TLS, WAF, edge rate limiting) outward to infrastructure.'
+    ]
+  },
+
+  {
+    id:'auth', icon:'auth', tag:'Security',
+    title:'Authentication & Authorization (JWT, OAuth)',
+    blurb:'AuthN proves who you are; AuthZ decides what you may do. Tokens are signed, not secret.',
+    map:[
+      '<b>The split:</b> authentication vs authorization, claims-based identity',
+      '<b>JWT:</b> structure, signing, validation, expiry &amp; refresh',
+      '<b>OAuth 2.0 / OIDC:</b> the grant flows and which to use',
+      '<b>Authorization models:</b> role-based, policy-based, resource-based',
+      '<b>Threats:</b> token storage, XSS/CSRF, scope &amp; least privilege'
+    ],
+    deep:[
+      'A <b>JWT</b> is three base64url parts — <code>header.payload.signature</code>. The signature is computed over header+payload with a secret (HMAC) or private key (RSA/ECDSA). The payload is <b>encoded, not encrypted</b> — anyone can read the claims, so <b>never put secrets in it</b>. Validation = verify signature + issuer + audience + expiry, every request.',
+      '<b>OAuth 2.0</b> is delegated authorization (access to resources); <b>OpenID Connect</b> layers authentication on top and adds an <b>id_token</b>. Key flows: <b>Authorization Code + PKCE</b> for web/native/SPA (the modern default), <b>Client Credentials</b> for service-to-service (no user). The <b>Implicit</b> flow is deprecated.',
+      'Short-lived <b>access tokens</b> + longer-lived <b>refresh tokens</b>: when the access token expires, exchange the refresh token for a new one without re-login. Refresh tokens are sensitive — rotate them and be able to revoke.',
+      '<b>Authorization</b> in ASP.NET Core: roles are coarse; <b>policy-based</b> (claims/requirements/handlers) is the flexible default; <b>resource-based</b> authorization checks permission against a specific entity ("can <i>this</i> user edit <i>this</i> document"), which roles alone can\'t express.',
+      'Token storage trade-off in browsers: <code>localStorage</code> is XSS-exposed; an <b>HttpOnly</b> cookie is safe from JS but needs CSRF defense (SameSite + anti-forgery). There\'s no free lunch — pick per threat model.'
+    ],
+    ask:[
+      '<span class="q">What\'s inside a JWT, and what does the server validate on each request?</span>',
+      '<span class="q">Is the JWT payload encrypted? What must never go in it?</span>',
+      '<span class="q">Authorization Code + PKCE vs Client Credentials — when each, and what is PKCE protecting against?</span>',
+      '<span class="q">Why short-lived access tokens + refresh tokens? How do you revoke?</span>',
+      '<span class="q">Role-based vs policy-based vs resource-based authorization — give an example only resource-based handles.</span>',
+      '<span class="q">Where do you store a token in a browser, and what attack does each choice expose?</span>'
+    ],
+    watch:[
+      'Calling a JWT "encrypted" or putting sensitive data in the payload — it\'s readable by anyone.',
+      'Not validating issuer/audience/expiry (or accepting <code>alg: none</code>) — forged-token territory.',
+      'Long-lived access tokens with no refresh/revocation story — a stolen token works for ages.',
+      'Storing tokens in <code>localStorage</code> while also having an XSS hole — game over.',
+      'Conflating 401 and 403, or doing authorization checks in the UI only (trusting the client).',
+      'Rolling your own crypto / token format instead of a vetted library and standard flows.'
+    ],
+    staff:[
+      'Own the auth architecture: a central identity provider (OIDC) vs per-service auth, token lifetimes, key rotation, and how services validate tokens (introspection vs local signature check).',
+      'Drive least-privilege and scoped tokens across services; design authorization so it\'s testable and centrally policy-able, not scattered <code>if (role==...)</code> checks.',
+      'Map the threat model end to end — token theft, replay, CSRF/XSS, key compromise — and the blast-radius containment for each. Security questions at staff level are about systemic risk, not API trivia.'
+    ]
+  },
+
+  {
+    id:'perf', icon:'perf', tag:'Cross-cutting',
+    title:'Performance Optimization & Caching',
+    blurb:'Measure first. Then cache the right thing, at the right layer, with an invalidation story.',
+    map:[
+      '<b>Method:</b> profile before optimizing — <code>dotnet-trace</code>/<code>-counters</code>, BenchmarkDotNet',
+      '<b>Caching layers:</b> in-memory (<code>IMemoryCache</code>), distributed (<code>IDistributedCache</code>/Redis), HTTP/output, CDN',
+      '<b>Strategies:</b> cache-aside, invalidation, stampede protection, TTL/eviction',
+      '<b>Allocation:</b> <code>Span</code>/pooling/<code>StringBuilder</code>, reducing GC pressure',
+      '<b>Runtime:</b> server GC, async I/O, connection pooling, AOT/ReadyToRun'
+    ],
+    deep:[
+      '<b>Measure first.</b> The cardinal rule — profile to find the real bottleneck (it\'s usually I/O or a query, rarely the CPU loop you suspect). Use <code>dotnet-counters</code>/<code>dotnet-trace</code> in prod and BenchmarkDotNet for micro-decisions. Optimizing un-profiled code is how staff candidates lose credibility.',
+      '<b>Cache layers</b> trade scope vs coherence: <code>IMemoryCache</code> is fastest but per-instance (stale across a scaled-out farm); <code>IDistributedCache</code> (Redis) is shared and survives restarts but adds a network hop and a dependency; HTTP/<b>output caching</b> + ETags + a CDN push work to the edge.',
+      '<b>Cache-aside</b>: check cache → miss → load from source → populate → return. The hard part is always <b>invalidation</b> — TTLs, explicit eviction on write, or versioned keys. "There are only two hard things…": this is one of them.',
+      '<b>Cache stampede</b>: a hot key expires and N concurrent requests all miss and hammer the source at once. Mitigate with a per-key lock/semaphore (single-flight), staggered/jittered expiry, or background refresh before expiry.',
+      'Allocation discipline cuts GC pressure on hot paths: <code>StringBuilder</code> over <code>+=</code> in loops, <code>Span</code>/<code>stackalloc</code> and <code>ArrayPool</code> to avoid heap churn, <code>struct</code>s to avoid heap objects, and <b>async I/O</b> so threads aren\'t blocked. Pair with server GC and connection pooling.'
+    ],
+    code:`<span class="c">// Cache-aside with stampede protection (single-flight per key)</span>
+<span class="k">if</span> (_cache.TryGetValue(key, <span class="k">out</span> Data v)) <span class="k">return</span> v;
+<span class="k">var</span> gate = _locks.GetOrAdd(key, _ =&gt; <span class="k">new</span> <span class="t">SemaphoreSlim</span>(<span class="n">1</span>,<span class="n">1</span>));
+<span class="k">await</span> gate.WaitAsync(ct);
+<span class="k">try</span> {
+    <span class="k">if</span> (_cache.TryGetValue(key, <span class="k">out</span> v)) <span class="k">return</span> v;   <span class="c">// double-check</span>
+    v = <span class="k">await</span> LoadFromDbAsync(key, ct);
+    _cache.Set(key, v, <span class="t">TimeSpan</span>.FromMinutes(<span class="n">5</span>));
+    <span class="k">return</span> v;
+} <span class="k">finally</span> { gate.Release(); }`,
+    ask:[
+      '<span class="q">A request is slow. Walk me through how you find the bottleneck before touching code.</span>',
+      '<span class="q">In-memory vs distributed cache — trade-offs, and why in-memory breaks when you scale out?</span>',
+      '<span class="q">What\'s a cache stampede and how do you prevent it?</span>',
+      '<span class="q">Cache invalidation strategies — TTL, write-through, eviction — and when each fits?</span>',
+      '<span class="q">How do you reduce allocations on a hot path, and how do you prove it helped?</span>',
+      '<span class="q">When does caching make things <i>worse</i>?</span> (stale data, low hit rate, complexity, memory pressure)'
+    ],
+    watch:[
+      'Optimizing without profiling — guessing the bottleneck, micro-optimizing cold code.',
+      'Using <code>IMemoryCache</code> in a multi-instance deployment and being surprised by stale/inconsistent reads.',
+      'Caching with no eviction or invalidation plan — stale data and unbounded memory.',
+      'No stampede protection on hot keys — a thundering herd at expiry.',
+      'String concatenation in loops, boxing in hot paths, blocking I/O calls — death by a thousand allocations.',
+      'Caching things that change constantly or have a near-zero hit rate — pure overhead.'
+    ],
+    staff:[
+      'Set SLOs and budgets (p99 latency, error rate, allocation rate) and optimize against them — performance is a target, not a vibe.',
+      'Architect caching as a system: which layer owns which data, invalidation across services (events / versioned keys), and the consistency trade-off you\'re explicitly accepting.',
+      'Build the culture of measurement — benchmarks in CI for hot paths, load testing before launch, and production telemetry that catches regressions early.'
+    ]
+  }
+];
+
+/* ---------- render ---------- */
+const pillarsEl = document.getElementById('pillars');
+const chipsEl   = document.getElementById('chips');
+
+function block(kind, label, items, listClass){
+  if(!items || !items.length) return '';
+  const lis = items.map(t => `<li>${t}</li>`).join('');
+  return `<div class="block">
+      <p class="b-label l-${kind}"><span class="pip"></span>${label}</p>
+      <ul class="${listClass||''}">${lis}</ul>
+    </div>`;
+}
+
+PILLARS.forEach(p => {
+  const codeHtml = p.code ? `<pre><code>${p.code}</code></pre>` : '';
+  const article = document.createElement('article');
+  article.className = 'pillar';
+  article.id = p.id;
+  article.dataset.search = (p.title + ' ' + p.blurb + ' ' +
+      [].concat(p.map||[],p.deep||[],p.ask||[],p.watch||[],p.staff||[]).join(' '))
+      .replace(/<[^>]+>/g,' ').toLowerCase();
+
+  article.innerHTML = `
+    <button class="p-head" aria-expanded="false" aria-controls="body-${p.id}">
+      <span class="emblem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[p.icon]}</svg></span>
+      <span class="p-titles"><h3>${p.title}</h3><p>${p.blurb}</p></span>
+      <span class="p-tag">${p.tag}</span>
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+    </button>
+    <div class="p-body" id="body-${p.id}">
+      ${block('map','Map — the branches',p.map)}
+      ${block('deep','Go deep — internals',p.deep)}
+      ${codeHtml}
+      ${block('ask','They\'ll ask',p.ask,'ask')}
+      ${block('watch','Watch for — gotchas',p.watch,'watch')}
+      ${block('staff','Staff lens',p.staff,'staff')}
+      <div class="p-foot">
+        <label class="check"><input type="checkbox" data-id="${p.id}"> Mark mastered</label>
+        <a class="topjump" href="#top" onclick="window.scrollTo({top:0});return false;">↑ back to map</a>
+      </div>
+    </div>`;
+  pillarsEl.appendChild(article);
+
+  // chip in the constellation
+  const chip = document.createElement('button');
+  chip.className = 'chip';
+  chip.dataset.target = p.id;
+  chip.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[p.icon]}</svg>${p.title}`;
+  chipsEl.appendChild(chip);
+});
+
+/* ---------- expand / collapse ---------- */
+function toggle(pillar, open){
+  const head = pillar.querySelector('.p-head');
+  const isOpen = typeof open === 'boolean' ? open : !pillar.classList.contains('is-open');
+  pillar.classList.toggle('is-open', isOpen);
+  head.setAttribute('aria-expanded', String(isOpen));
+}
+pillarsEl.addEventListener('click', e => {
+  const head = e.target.closest('.p-head');
+  if(head) toggle(head.closest('.pillar'));
+});
+document.getElementById('expandAll').addEventListener('click', () =>
+  document.querySelectorAll('.pillar').forEach(p => toggle(p, true)));
+document.getElementById('collapseAll').addEventListener('click', () =>
+  document.querySelectorAll('.pillar').forEach(p => toggle(p, false)));
+
+/* ---------- chip navigation ---------- */
+chipsEl.addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  const target = document.getElementById(chip.dataset.target);
+  toggle(target, true);
+  target.scrollIntoView({behavior:'smooth', block:'start'});
+});
+
+/* ---------- live filter ---------- */
+const filter = document.getElementById('filter');
+const noResults = document.getElementById('noresults');
+filter.addEventListener('input', () => {
+  const q = filter.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('.pillar').forEach(p => {
+    const match = !q || p.dataset.search.includes(q);
+    p.style.display = match ? '' : 'none';
+    if(match){ shown++; if(q) toggle(p, true); }
+  });
+  noResults.classList.toggle('show', shown === 0);
+});
+
+/* ---------- progress (graceful persistence) ---------- */
+const KEY = 'csharp-map-progress-v1';
+const progressText = document.getElementById('progressText');
+const progressFill = document.getElementById('progressFill');
+const boxes = [...document.querySelectorAll('.check input')];
+let canStore = false;
+try { canStore = !!(window.storage && typeof window.storage.get === 'function'); } catch(_) { canStore = false; }
+
+function paint(state){
+  let n = 0;
+  boxes.forEach(b => { b.checked = !!state[b.dataset.id]; if(b.checked) n++; });
+  progressText.textContent = `${n} / ${boxes.length}`;
+  progressFill.style.width = (boxes.length ? (n/boxes.length*100) : 0) + '%';
+}
+let memState = {};
+async function loadState(){
+  if(canStore){
+    try { const r = await window.storage.get(KEY); memState = r && r.value ? JSON.parse(r.value) : {}; }
+    catch(_) { memState = {}; }
+  }
+  paint(memState);
+}
+async function saveState(){
+  if(!canStore) return;
+  try { await window.storage.set(KEY, JSON.stringify(memState), false); } catch(_) {}
+}
+boxes.forEach(b => b.addEventListener('change', () => {
+  memState[b.dataset.id] = b.checked;
+  paint(memState);
+  saveState();
+}));
+loadState();
+
+/* ---------- constellation connector lines ---------- */
+const svg = document.getElementById('links');
+const core = document.getElementById('core');
+const container = document.getElementById('constellation');
+const SVGNS = 'http://www.w3.org/2000/svg';
+
+function center(el, host){
+  const r = el.getBoundingClientRect();
+  const h = host.getBoundingClientRect();
+  return { x: r.left - h.left + r.width/2, y: r.top - h.top + r.height/2,
+           bottom: r.bottom - h.top, top: r.top - h.top };
+}
+function drawLinks(){
+  // clear existing paths
+  [...svg.querySelectorAll('path')].forEach(p => p.remove());
+  const h = container.getBoundingClientRect();
+  svg.setAttribute('viewBox', `0 0 ${h.width} ${h.height}`);
+  const cBox = core.getBoundingClientRect();
+  const cx = cBox.left - h.left + cBox.width/2;
+  const cy = cBox.bottom - h.top;             // anchor at bottom-center of core
+  document.querySelectorAll('.chip').forEach(chip => {
+    const r = chip.getBoundingClientRect();
+    const x = r.left - h.left + r.width/2;
+    const y = r.top - h.top;                  // anchor at top-center of chip
+    const my = (cy + y) / 2;
+    const path = document.createElementNS(SVGNS,'path');
+    path.setAttribute('d', `M ${cx} ${cy} C ${cx} ${my}, ${x} ${my}, ${x} ${y}`);
+    svg.appendChild(path);
+  });
+}
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function scheduleDraw(){ requestAnimationFrame(() => requestAnimationFrame(drawLinks)); }
+window.addEventListener('load', scheduleDraw);
+window.addEventListener('resize', scheduleDraw);
+if(document.fonts && document.fonts.ready){ document.fonts.ready.then(scheduleDraw); }
+scheduleDraw();
+</script>
+</body>
+</html>
